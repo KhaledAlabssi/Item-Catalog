@@ -1,11 +1,26 @@
-from flask import render_template
-from flaskapp import app
+import os
+import secrets
+from flask import render_template, url_for, flash, redirect, request
+from flaskapp import app, db, bcrypt
+from flaskapp.forms import RegistrationForm, LoginForm
+from flaskapp.models import User, Company, Auto
+from flask_login import login_user, current_user, logout_user, login_required
 
 
 @app.route("/")
 @app.route("/catalog/")
 def home():
     return render_template('catalog.html')
+
+
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
+
+@app.route("/register")
+def register():
+    return render_template('register.html')
 
 
 @app.route("/company/new/")
