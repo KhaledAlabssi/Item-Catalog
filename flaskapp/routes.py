@@ -41,7 +41,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, emai=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -77,7 +77,7 @@ def showAutos(company_id):
 @app.route("/company/<int:company_id>/autos/new/")
 @login_required
 def newAutos(company_id):
-    return render_template("newAutos.html", company_id=company_id)
+    return render_template("newAuto.html", company_id=company_id)
 
 
 @app.route("/company/<int:company_id>/autos/<int:car_id>/edit/")
