@@ -50,36 +50,43 @@ def register():
 
 
 @app.route("/company/new/")
+@login_required
 def newCompany():
     return render_template('newCompany.html')
 
 
 @app.route("/company/<int:company_id>/edit/")
+@login_required
 def editCompany(company_id):
     return render_template("editCompany.html", company_id=company_id)
 
 
 @app.route("/company/<int:company_id>/delete/")
+@login_required
 def deleteCompany(company_id):
     return render_template("deleteCompany.html", company_id=company_id)
 
 
 @app.route("/company/<int:company_id>")
+@login_required
 # @app.route("/company/<int:company_id>/autos>")
 def showAutos(company_id):
     return render_template("publicAutos.html", company_id=company_id)
 
 
 @app.route("/company/<int:company_id>/autos/new/")
+@login_required
 def newAutos(company_id):
     return render_template("newAutos.html", company_id=company_id)
 
 
 @app.route("/company/<int:company_id>/autos/<int:car_id>/edit/")
+@login_required
 def editAuto(company_id, car_id):
     return render_template("editAutos.html", company_id=company_id, car_id=car_id)
 
 
 @app.route("/company/<int:company_id>/autos/<int:car_id>/delete/")
+@login_required
 def deleteAuto(company_id, car_id):
     return render_template("deleteAuto.html", company_id=company_id, car_id=car_id)
