@@ -2,7 +2,7 @@ import os
 import secrets
 from flask import render_template, url_for, flash, redirect, request
 from flaskapp import app, db, bcrypt
-from flaskapp.forms import RegistrationForm, LoginForm
+from flaskapp.forms import RegistrationForm, LoginForm, NewCompanyForm
 from flaskapp.models import User, Company, Auto
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -10,7 +10,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/catalog/")
 def home():
-    return render_template('catalog.html')
+    company = Company.query.all()
+    return render_template('catalog.html', company=company)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -49,10 +50,16 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route("/company/new/")
+@app.route("/company/new/", methods=['Get', 'Post'])
 @login_required
 def newCompany():
-    return render_template('newCompany.html')
+    form = NewCompanyForm()
+    if form.validate_on_submit():
+        company = Company(name=form.name.data, user=current_user)
+        db.session.add(company)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('newCompany.html', form=form)
 
 
 @app.route("/company/<int:company_id>/edit/")

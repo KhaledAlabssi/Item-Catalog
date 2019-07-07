@@ -5,4 +5,8 @@
 
 <p>catalog.html</p>
 
+
+{%for c in company%}
+<h1>{{c.name}} </h1><a class="btn btn-warning" href="#">edit</a> <a class="btn btn-danger" href="#">delete</a> 
+{%endfor%}
 {%endblock content%}
