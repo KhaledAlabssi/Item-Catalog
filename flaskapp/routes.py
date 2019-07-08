@@ -65,7 +65,17 @@ def newCompany():
 @app.route("/company/<int:company_id>/edit/", methods=["GET", "POST"])
 @login_required
 def editCompany(company_id):
-    return render_template("editCompany.html", company_id=company_id)
+    company = Company.query.get_or_404(company_id)
+    if company.user != current_user:
+        abort(403)
+    form = NewCompanyForm()
+    if form.validate_on_submit():
+        company.name = form.name.data
+    
+        db.session.commit()
+        flash('Your Brand has been updated!', 'success')
+        return redirect(url_for('home'))
+    return render_template("editCompany.html", form=form, company_id=company_id, company=company)
 
 
 @app.route("/company/<int:company_id>/delete/", methods=["GET", "POST"])
@@ -78,11 +88,7 @@ def deleteCompany(company_id):
     db.session.commit()
     flash('Your Brand has been deleted!', 'success')
     return redirect(url_for('home'))
-    # return render_template("deleteCompany.html", company_id=company_id)
-    # db.session.delete(post)
-    # db.session.commit()
-    # flash('Your post has been deleted!', 'success')
-    # return redirect(url_for('home'))
+
 
 
 
