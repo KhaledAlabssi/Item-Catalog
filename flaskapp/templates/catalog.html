@@ -7,6 +7,8 @@
 
 
 {%for c in company%}
-<h1>{{c.name}} </h1><a class="btn btn-warning" href="#">edit</a> <a class="btn btn-danger" href="#">delete</a> 
+<h1>{{c.name}} </h1><a class="btn btn-warning" href="#">edit</a> <a class="btn btn-danger" 
+    href="{{url_for('deleteCompany', company_id=c.id)}}">delete</a> 
 {%endfor%}
 {%endblock content%}
+<!-- href="{{url_for('showAutos', company_id = i.id)}}" -->

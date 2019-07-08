@@ -62,38 +62,50 @@ def newCompany():
     return render_template('newCompany.html', form=form)
 
 
-@app.route("/company/<int:company_id>/edit/")
+@app.route("/company/<int:company_id>/edit/", methods=["GET", "POST"])
 @login_required
 def editCompany(company_id):
     return render_template("editCompany.html", company_id=company_id)
 
 
-@app.route("/company/<int:company_id>/delete/")
+@app.route("/company/<int:company_id>/delete/", methods=["GET", "POST"])
 @login_required
 def deleteCompany(company_id):
-    return render_template("deleteCompany.html", company_id=company_id)
+    company = Company.query.get_or_404(company_id)
+    if company.user != current_user:
+        abort(403)
+    db.session.delete(company)
+    db.session.commit()
+    flash('Your Brand has been deleted!', 'success')
+    return redirect(url_for('home'))
+    # return render_template("deleteCompany.html", company_id=company_id)
+    # db.session.delete(post)
+    # db.session.commit()
+    # flash('Your post has been deleted!', 'success')
+    # return redirect(url_for('home'))
 
 
-@app.route("/company/<int:company_id>")
+
+@app.route("/company/<int:company_id>", methods=["GET", "POST"])
 @login_required
 # @app.route("/company/<int:company_id>/autos>")
 def showAutos(company_id):
     return render_template("publicAutos.html", company_id=company_id)
 
 
-@app.route("/company/<int:company_id>/autos/new/")
+@app.route("/company/<int:company_id>/autos/new/", methods=["GET", "POST"])
 @login_required
 def newAutos(company_id):
     return render_template("newAuto.html", company_id=company_id)
 
 
-@app.route("/company/<int:company_id>/autos/<int:car_id>/edit/")
+@app.route("/company/<int:company_id>/autos/<int:car_id>/edit/", methods=["GET", "POST"])
 @login_required
 def editAuto(company_id, car_id):
     return render_template("editAutos.html", company_id=company_id, car_id=car_id)
 
 
-@app.route("/company/<int:company_id>/autos/<int:car_id>/delete/")
+@app.route("/company/<int:company_id>/autos/<int:car_id>/delete/", methods=["GET", "POST"])
 @login_required
 def deleteAuto(company_id, car_id):
     return render_template("deleteAuto.html", company_id=company_id, car_id=car_id)
