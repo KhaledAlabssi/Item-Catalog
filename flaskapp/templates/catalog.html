@@ -3,12 +3,27 @@
 {%endblock title%}
 {% block content %}
 
-<p>catalog.html</p>
+<a class="btn btn-secondary mb-5" href="{{url_for('newCompany')}}">Add new Brand</a>
 
-
+<div class="row">
 {%for c in company%}
-<h1>{{c.name}} </h1><a class="btn btn-warning" href="#">edit</a> <a class="btn btn-danger" 
-    href="{{url_for('deleteCompany', company_id=c.id)}}">delete</a> 
+
+
+    <div class="col-sm-6">
+      <div class="card mb-5">
+        <div class="card-body">
+          <h5 class="card-title">{{c.name}}</h5>
+          <p class="card-text">To be added later</p>
+          <a class="btn btn-primary float-right" 
+    href="{{url_for('showAutos', company_id=c.id)}}">View Autos</a>
+          <a class="btn btn-warning" 
+    href="{{url_for('editCompany', company_id=c.id)}}">edit</a> 
+    <a class="btn btn-danger" 
+    href="{{url_for('deleteCompany', company_id=c.id)}}">delete</a>
+        </div>
+      </div>
+    </div>
+
 {%endfor%}
+</div>
 {%endblock content%}
-<!-- href="{{url_for('showAutos', company_id = i.id)}}" -->
